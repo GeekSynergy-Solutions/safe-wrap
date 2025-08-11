@@ -1,0 +1,35 @@
+{
+  "name": "safe-wrap",
+  "version": "1.0.0",
+  "description": "Safely wrap JavaScript functions and values with fallbacks, redirection, and error handling — no TypeScript required.",
+  "keywords": [
+    "safe",
+    "wrap",
+    "fallback",
+    "error",
+    "redirect",
+    "try-catch",
+    "typescript",
+    "alternative",
+    "js",
+    "safety"
+  ],
+  "homepage": "https://github.com/GeekSynergy-Solutions/safe-wrap#readme",
+  "bugs": {
+    "url": "https://github.com/GeekSynergy-Solutions/safe-wrap/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GeekSynergy-Solutions/safe-wrap.git"
+  },
+  "license": "MIT",
+  "author": "Victor Nwakutere",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "protectedconsole": "^1.0.11"
+  }
+}
