@@ -1,6 +1,9 @@
 import protectedconsole from "protectedconsole";
 class SafeWrap {
-    safeWrapSync({
+    constructor (){
+    }
+    
+    runSync({
         tryFn = () => undefined,
         fallbackValue,
         fallbackFn,
@@ -53,7 +56,7 @@ class SafeWrap {
         }
     }
 
-    async safeWrapAsync({
+    async runAsync({
         tryFn = async () => undefined,
         fallbackValue,
         fallbackFn,
