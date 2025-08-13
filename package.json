@@ -1,6 +1,6 @@
 {
   "name": "safe-wrap",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Safely wrap JavaScript functions and values with fallbacks, redirection, and error handling — no TypeScript required.",
   "keywords": [
     "safe",
