@@ -1,18 +1,20 @@
-import safeWrap from "./package/safeWrap.js"
+import safeWrap from "./package/safeWrapClass.js"
 
-const _safeWrap = new safeWrap.SafeWrap();
+const _safeWrap = new safeWrap.SafeWrapClass();
 
-const safeWarpSync = ({ tryFn = () => undefined,
+const safeValue = ({givenValue: givenValue, fallbackValue: fallbackValue}) => _safeWrap.runValidValue(givenValue, {fallbackValue: fallbackValue});
+
+const safeWarpSyncFun = ({ tryFn = () => undefined,
     fallbackValue,
     fallbackFn,
-    throwOnFail = false }) => _safeWrap.runSync(tryFn, fallbackValue, fallbackFn, throwOnFail);
+    throwOnFail = false }) => _safeWrap.runSyncFun({ tryFn: tryFn, fallbackValue: fallbackValue, fallbackFn: fallbackFn, throwOnFail: throwOnFail });
 
-const safeWarpASync = ({ tryFn = async () => undefined,
+const safeWarpASyncFun = ({ tryFn = () => undefined,
     fallbackValue,
     fallbackFn,
     redirectUrl,
     checkRouteExists = async () => true,
-    throwOnFail = false }) => _safeWrap.runAsync(tryFn, fallbackValue, fallbackFn, redirectUrl, checkRouteExists, throwOnFail);
+    throwOnFail = false }) => _safeWrap.runAsyncFun({ tryFn: tryFn, fallbackValue: fallbackValue, fallbackFn: fallbackFn, redirectUrl: redirectUrl, checkRouteExists: checkRouteExists, throwOnFail: throwOnFail });
 
 
-export default {safeWarpSync, safeWarpASync};    
+export default { safeWarpSyncFun, safeWarpASyncFun, safeValue };

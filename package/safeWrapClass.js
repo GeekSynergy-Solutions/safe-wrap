@@ -1,42 +1,66 @@
 import protectedconsole from "protectedconsole";
-class SafeWrap {
-    constructor (){
+class SafeWrapClass {
+    constructor() {
+    }
+
+    runValidValue(givenValue, {
+        fallbackValue,
+    }) {
+        if (givenValue === null || givenValue === undefined || this.isResultNaN(givenValue)) {
+            if (fallbackValue !== null && fallbackValue !== undefined && fallbackValue !== NaN) {
+                return fallbackValue;
+            }
+        }
+        return givenValue;
+    }
+
+    isResultNaN(givenValue) {
+        return typeof givenValue ? Number.isNaN(givenValue) : false;
     }
     
-    runSync({
+    isFunction(value) {
+        return typeof value === 'function';
+    }
+
+    _getRightFunctionData(tryFn = () => undefined){
+        return tryFn();
+    }
+
+    runSyncFun({
         tryFn = () => undefined,
         fallbackValue,
         fallbackFn,
         throwOnFail = false
     } = {}) {
         try {
+            
             const result = tryFn();
 
-            if (result === null || result === undefined) {
+            if (result === null || result === undefined || this.isResultNaN(result)) {
                 if (fallbackFn) {
                     const fallbackResult = fallbackFn();
-                    if (fallbackResult !== null && fallbackResult !== undefined) {
+                    if (fallbackResult !== null && fallbackResult !== undefined && !this.isResultNaN(fallbackFn)) {
                         return fallbackResult;
                     }
                 }
-                if (fallbackValue !== null && fallbackValue !== undefined) {
+                if (fallbackValue !== null && fallbackValue !== undefined && !this.isResultNaN(fallbackValue)) {
                     return fallbackValue;
                 }
 
                 if (throwOnFail) {
-                    throw new Error("safeWrapSync: result and fallback are null or undefined");
+                    throw new Error("safeWrapSyncFun: result and fallback are null or undefined");
                 }
                 return undefined;
             }
 
             return result;
         } catch (error) {
-            protectedconsole.protectedDebugData(`safeWrapSync caught an error: ${error}`);
+            protectedconsole.protectedDebugData(`safeWrapSyncFun caught an error: ${error}`);
 
             if (fallbackFn) {
                 try {
                     const fallbackResult = fallbackFn();
-                    if (fallbackResult !== null && fallbackResult !== undefined) {
+                    if (fallbackResult !== null && fallbackResult !== undefined && !this.isResultNaN(fallbackResult)) {
                         return fallbackResult;
                     }
                 } catch (fallbackError) {
@@ -44,7 +68,7 @@ class SafeWrap {
                 }
             }
 
-            if (fallbackValue !== null && fallbackValue !== undefined) {
+            if (fallbackValue !== null && fallbackValue !== undefined && !this.isResultNaN(fallbackValue)) {
                 return fallbackValue;
             }
 
@@ -56,7 +80,7 @@ class SafeWrap {
         }
     }
 
-    async runAsync({
+    async runAsyncFun({
         tryFn = async () => undefined,
         fallbackValue,
         fallbackFn,
@@ -67,20 +91,20 @@ class SafeWrap {
         try {
             const result = await tryFn();
 
-            if (result === null || result === undefined) {
+            if (result === null || result === undefined || this.isResultNaN(result)) {
                 if (fallbackFn) {
                     const fallbackResult = await fallbackFn();
-                    if (fallbackResult !== null && fallbackResult !== undefined) {
+                    if (fallbackResult !== null && fallbackResult !== undefined && !this.isResultNaN(fallbackResult)) {
                         return fallbackResult;
                     }
                 }
 
-                if (fallbackValue !== null && fallbackValue !== undefined) {
+                if (fallbackValue !== null && fallbackValue !== undefined && !this.isResultNaN(fallbackValue)) {
                     return fallbackValue;
                 }
 
                 if (throwOnFail) {
-                    throw new Error("safeWrap: result and fallback are null or undefined");
+                    throw new Error("safeWrapAsyncFun: result and fallback are null or undefined");
                 }
                 return undefined;
             }
@@ -88,7 +112,7 @@ class SafeWrap {
             return result;
 
         } catch (error) {
-            protectedconsole.protectedDebugData(`safeWrap caught an error: ${error}`);
+            protectedconsole.protectedDebugData(`safeWrapAsyncFun caught an error: ${error}`);
 
             if (redirectUrl && typeof window !== "undefined") {
                 const routeOk = await checkRouteExists(redirectUrl);
@@ -101,7 +125,7 @@ class SafeWrap {
             if (fallbackFn) {
                 try {
                     const fallbackResult = await fallbackFn();
-                    if (fallbackResult !== null && fallbackResult !== undefined) {
+                    if (fallbackResult !== null && fallbackResult !== undefined && !this.isResultNaN(fallbackResult)) {
                         return fallbackResult;
                     }
                 } catch (fallbackError) {
@@ -109,7 +133,7 @@ class SafeWrap {
                 }
             }
 
-            if (fallbackValue !== null && fallbackValue !== undefined) {
+            if (fallbackValue !== null && fallbackValue !== undefined && !this.isResultNaN(fallbackValue)) {
                 return fallbackValue;
             }
 
@@ -122,4 +146,4 @@ class SafeWrap {
     }
 }
 
-export default {SafeWrap}
+export default { SafeWrapClass }
